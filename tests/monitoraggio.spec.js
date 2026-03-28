@@ -1,4 +1,13 @@
-const { test, expect } = require('@playwright/test');
+const { test } = require('@playwright/test');
+const fs = require('fs');
+
+// Funzione per salvare i dati nel file CSV
+function salvaRisultato(localita, durata) {
+  const dataora = new Date().toISOString();
+  const riga = `${dataora},${localita},${durata}\n`;
+  // Se il file non esiste lo crea, altrimenti aggiunge la riga in fondo
+  fs.appendFileSync('performance_log.csv', riga);
+}
 
 test('Ricerca 1 Giorno (Andora)', async ({ page }) => {
   const url = 'https://www.gotomare.holiday/search?city_id=3&from_date=2026-07-01&to_date=2026-07-01';
