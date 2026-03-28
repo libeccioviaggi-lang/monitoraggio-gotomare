@@ -1,17 +1,21 @@
 name: Monitoraggio Gotomare
 on:
   schedule:
-    - cron: '0 * * * *' # Gira ogni ora esatta
-  workflow_dispatch: # Permette di farlo partire a mano per provare
+    # '*/30' significa: esegui al minuto 0 e al minuto 30 di ogni ora
+    - cron: '*/30 * * * *' 
+  workflow_dispatch: # Ti permette di farlo partire a mano quando vuoi
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      # Manteniamo la configurazione per Node 24 come richiesto dal sistema
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - name: Install dependencies
         run: |
           npm init -y
