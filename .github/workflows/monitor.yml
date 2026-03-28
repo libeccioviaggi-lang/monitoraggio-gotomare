@@ -1,25 +1,38 @@
 name: Monitoraggio Gotomare
 on:
   schedule:
-    # Esegue il test ogni 30 minuti (al minuto 0 e al minuto 30)
-    - cron: '*/30 * * * *' 
-  workflow_dispatch: # Ti permette di farlo partire a mano quando vuoi
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permesso fondamentale per salvare il file CSV
     env:
-      # Eliminiamo il warning forzando l'uso di Node 24
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24 # Aggiornato alla versione richiesta
+          node-version: 24
       - name: Install dependencies
         run: |
           npm init -y
           npm install @playwright/test
           npx playwright install chromium --with-deps
+      
       - name: Run Tests
         run: npx playwright test
+
+      - name: Save Results to Repository
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          # Se il file non esiste, crea l'intestazione
+          if [ ! -f performance_log.csv ]; then
+            echo "Timestamp,Localita,Secondi" > performance_log.csv
+          fi
+          git add performance_log.csv
+          git commit -m "Aggiornamento log performance [skip ci]"
+          git push
