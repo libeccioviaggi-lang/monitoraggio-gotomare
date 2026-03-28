@@ -1,7 +1,7 @@
 name: Monitoraggio Gotomare
 on:
   schedule:
-    # '*/30' significa: esegui al minuto 0 e al minuto 30 di ogni ora
+    # Esegue il test ogni 30 minuti (al minuto 0 e al minuto 30)
     - cron: '*/30 * * * *' 
   workflow_dispatch: # Ti permette di farlo partire a mano quando vuoi
 
@@ -9,13 +9,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      # Manteniamo la configurazione per Node 24 come richiesto dal sistema
+      # Eliminiamo il warning forzando l'uso di Node 24
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24 # Aggiornato alla versione richiesta
       - name: Install dependencies
         run: |
           npm init -y
