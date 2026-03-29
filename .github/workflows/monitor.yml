@@ -1,14 +1,15 @@
 name: Monitoraggio Gotomare
 on:
   schedule:
-    - cron: '*/30 * * * *'
-  workflow_dispatch:
+    # Esegue ai minuti 17 e 47 di ogni ora (es. 13:17, 13:47, 14:17...)
+    - cron: '17,47 * * * *'
+  workflow_dispatch: 
 
 jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Permesso per salvare il file CSV
+      contents: write
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
@@ -25,8 +26,6 @@ jobs:
           npx playwright install chromium --with-deps
       
       - name: Run Tests
-        # Usiamo 'continue-on-error' così se un test fallisce (es. sito giù) 
-        # il salvataggio dei log avviene comunque
         continue-on-error: true
         run: npx playwright test
 
@@ -35,19 +34,16 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # Se il file non esiste, crea l'intestazione
           if [ ! -f performance_log.csv ]; then
             echo "Timestamp,Localita,Secondi" > performance_log.csv
           fi
           
-          # Aggiungiamo il file e controlliamo se ci sono modifiche effettive
           git add performance_log.csv
           
-          # Solo se ci sono modifiche facciamo il commit e push
           if git diff --quiet && git diff --staged --quiet; then
             echo "Nessuna modifica da salvare."
           else
             git commit -m "Aggiornamento log performance [skip ci]"
-            git pull --rebase # Evita conflitti se modifichi il repo da web
+            git pull --rebase
             git push
           fi
