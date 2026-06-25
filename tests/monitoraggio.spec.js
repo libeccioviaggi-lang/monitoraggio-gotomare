@@ -11,7 +11,7 @@ function salvaRisultato(localita, durata) {
 
 // --- TEST ANDORA (1 GIORNO) ---
 test('Ricerca 1 Giorno (Andora)', async ({ page }) => {
-  const url = 'https://www.gotomare.holiday/search?city_id=3&from_date=2026-07-01&to_date=2026-07-01';
+  const url = 'https://www.gotomare.holiday/search?city_id=3&from_date=2026-09-01&to_date=2026-09-01';
   const start = Date.now();
   await page.goto(url, { waitUntil: 'networkidle' });
   
@@ -25,7 +25,7 @@ test('Ricerca 1 Giorno (Andora)', async ({ page }) => {
 
 // --- TEST ANDORA (3 GIORNI) ---
 test('Ricerca 3 Giorni (Andora)', async ({ page }) => {
-  const url = 'https://www.gotomare.holiday/search?city_id=3&from_date=2026-07-01&to_date=2026-07-03';
+  const url = 'https://www.gotomare.holiday/search?city_id=3&from_date=2026-09-01&to_date=2026-09-03';
   const start = Date.now();
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForSelector('.property-box', { timeout: 30000 });
@@ -37,7 +37,7 @@ test('Ricerca 3 Giorni (Andora)', async ({ page }) => {
 
 // --- TEST ALASSIO (2 GIORNI) ---
 test('Ricerca 2 Giorni (Alassio)', async ({ page }) => {
-  const url = 'https://www.gotomare.holiday/search?city_id=1&from_date=2026-07-18&to_date=2026-07-19';
+  const url = 'https://www.gotomare.holiday/search?city_id=1&from_date=2026-09-18&to_date=2026-09-19';
   const start = Date.now();
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForSelector('.property-box', { timeout: 30000 });
@@ -49,7 +49,7 @@ test('Ricerca 2 Giorni (Alassio)', async ({ page }) => {
 
 // --- TEST BONASSOLA (1 GIORNO) ---
 test('Ricerca 1 Giorno (Bonassola)', async ({ page }) => {
-  const url = 'https://www.gotomare.holiday/search?city_id=53&from_date=2026-08-05&to_date=2026-08-05';
+  const url = 'https://www.gotomare.holiday/search?city_id=53&from_date=2026-09-05&to_date=2026-09-05';
   const start = Date.now();
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForSelector('.property-box', { timeout: 30000 });
